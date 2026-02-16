@@ -1,4 +1,6 @@
+import { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { theme } from './theme';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Destinations from './pages/Destinations';
@@ -8,7 +10,8 @@ import TripCalculator from './pages/TripCalculator';
 
 function App() {
   return (
-    <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Home />} />
@@ -19,6 +22,7 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

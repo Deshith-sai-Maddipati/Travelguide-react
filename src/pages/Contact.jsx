@@ -1,29 +1,117 @@
+import styled from 'styled-components';
+
+const ContactMain = styled.div`
+  max-width: 800px;
+  margin: ${({ theme }) => theme.spacing['3xl']} auto;
+  padding: ${({ theme }) => theme.spacing.xl};
+
+  @media (max-width: 768px) {
+    margin: ${({ theme }) => theme.spacing.lg} auto;
+    padding: ${({ theme }) => theme.spacing.md};
+  }
+
+  @media (max-width: 480px) {
+    margin: ${({ theme }) => theme.spacing.md} auto;
+    padding: ${({ theme }) => theme.spacing.sm};
+  }
+`;
+
+const ContactTitle = styled.h1`
+  color: ${({ theme }) => theme.colors.header};
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
+
+  @media (max-width: 768px) {
+    margin-bottom: 1.25rem;
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.35rem;
+    margin-bottom: ${({ theme }) => theme.spacing.md};
+  }
+`;
+
+const ContactContainer = styled.div`
+  background-color: ${({ theme }) => theme.colors.white};
+  padding: ${({ theme }) => theme.spacing.xl};
+  border-radius: 12px;
+  box-shadow: ${({ theme }) => theme.shadows.md};
+
+  @media (max-width: 768px) {
+    padding: 1.25rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: ${({ theme }) => theme.spacing.md};
+  }
+`;
+
+const ContactSectionTitle = styled.h3`
+  color: ${({ theme }) => theme.colors.primary};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+    margin-bottom: ${({ theme }) => theme.spacing.sm};
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
+`;
+
+const ContactText = styled.p`
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+
+  @media (max-width: 768px) {
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.85rem;
+  }
+`;
+
+const ContactSocial = styled.p`
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
+
+  @media (max-width: 768px) {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.85rem;
+  }
+`;
+
 export default function Contact() {
   return (
-    <div className="contact-main">
-      <h1 className="contact-title">Contact Us</h1>
-      <div className="contact-container">
-        <h3 className="contact-section-title">Email</h3>
-        <p className="contact-text">wandeworld@gmail.com</p>
+    <ContactMain>
+      <ContactTitle>Contact Us</ContactTitle>
+      <ContactContainer>
+        <ContactSectionTitle>Email</ContactSectionTitle>
+        <ContactText>wandeworld@gmail.com</ContactText>
 
-        <h3 className="contact-section-title">Phone Number</h3>
-        <p className="contact-text">+91 9876543210</p>
+        <ContactSectionTitle>Phone Number</ContactSectionTitle>
+        <ContactText>+91 9876543210</ContactText>
 
-        <h3 className="contact-section-title">Address</h3>
-        <p className="contact-text">123, Main Street, Anytown, USA</p>
+        <ContactSectionTitle>Address</ContactSectionTitle>
+        <ContactText>123, Main Street, Anytown, USA</ContactText>
 
-        <h3 className="contact-section-title">Hours</h3>
-        <p className="contact-text">9:00 AM to 5:00 PM</p>
+        <ContactSectionTitle>Hours</ContactSectionTitle>
+        <ContactText>9:00 AM to 5:00 PM</ContactText>
 
-        <h3 className="contact-section-title">Social Media</h3>
-        <p className="contact-social">Twitter: @wandeworld</p>
-        <p className="contact-social">Facebook: @wandeworld</p>
-        <p className="contact-social">Instagram: @wandeworld</p>
-        <p className="contact-social">LinkedIn: @wandeworld</p>
-        <p className="contact-social">YouTube: @wandeworld</p>
-        <p className="contact-social">TikTok: @wandeworld</p>
-        <p className="contact-social">Pinterest: @wandeworld</p>
-      </div>
-    </div>
+        <ContactSectionTitle>Social Media</ContactSectionTitle>
+        <ContactSocial>Twitter: @wandeworld</ContactSocial>
+        <ContactSocial>Facebook: @wandeworld</ContactSocial>
+        <ContactSocial>Instagram: @wandeworld</ContactSocial>
+        <ContactSocial>LinkedIn: @wandeworld</ContactSocial>
+        <ContactSocial>YouTube: @wandeworld</ContactSocial>
+        <ContactSocial>TikTok: @wandeworld</ContactSocial>
+        <ContactSocial>Pinterest: @wandeworld</ContactSocial>
+      </ContactContainer>
+    </ContactMain>
   );
 }
