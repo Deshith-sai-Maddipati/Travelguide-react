@@ -1,18 +1,31 @@
-/* WanderWorld - global/base styles only (component styles use styled-components) */
+/**
+ * WanderWorld – Global Base Styles
+ *
+ * Use this file only for global/reset styles. Component-specific styles
+ * are handled by styled-components (see src/styles/index.js).
+ * CSS variables here mirror the theme used by styled-components.
+ */
 
+/* -----------------------------------------------------------------------------
+   Design tokens (Sixt-style: thick orange as primary)
+   ----------------------------------------------------------------------------- */
 :root {
-  --color-primary: #2C5F7C;
-  --color-primary-dark: #1A5F7A;
-  --color-header: #1E3A5F;
+  --color-primary: #E86C00;
+  --color-primary-dark: #CC5C00;
+  --color-header: #1A1A1A;
   --color-text: #1C1917;
-  --color-bg: #F8F9FA;
+  --color-bg: #FFF8F5;
+  --color-border: #FFD4B8;
   --color-white: #FFFFFF;
-  --color-accent: #FFB84D;
-  --color-border: #E5E7EB;
+  --color-accent: #E86C00;
+  --color-accent-dark: #B85800;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
 }
 
+/* -----------------------------------------------------------------------------
+   Reset & base
+   ----------------------------------------------------------------------------- */
 * {
   box-sizing: border-box;
 }
@@ -31,6 +44,9 @@ body {
   flex-direction: column;
 }
 
+/* -----------------------------------------------------------------------------
+   Typography defaults
+   ----------------------------------------------------------------------------- */
 h1, h2, h3 {
   margin-bottom: var(--spacing-sm);
 }

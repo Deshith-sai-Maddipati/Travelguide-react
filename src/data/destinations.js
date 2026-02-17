@@ -1,4 +1,13 @@
-// Real destination images from src/data/Images
+/**
+ * WanderWorld – Destinations Data
+ *
+ * Central data for featured destinations (images, copy) and city costs
+ * used by the Trip Calculator. Images are imported from the local Images folder.
+ */
+
+// -----------------------------------------------------------------------------
+// Image imports (desktop and mobile variants per destination)
+// -----------------------------------------------------------------------------
 import hyderabadDesktop from './Images/Hyderabad_Desktop.jpg';
 import hyderabadMobile from './Images/Hyderabad_Mobile.jpg';
 import parisDesktop from './Images/paris-desktop.jpg';
@@ -8,7 +17,9 @@ import tokyoMobile from './Images/tokyo-mobile.jpg';
 import baliDesktop from './Images/bali-desktop.jpg';
 import baliMobile from './Images/bali-mobile.jpg';
 
-// Destinations data (from PracticeProj_HTML_CSS_JS)
+// -----------------------------------------------------------------------------
+// Destinations list (used by Destinations page and Gallery)
+// -----------------------------------------------------------------------------
 export const destinations = [
   {
     id: 'hyderabad',
@@ -52,7 +63,9 @@ export const destinations = [
   },
 ];
 
-// City costs per day (USD) for Trip Calculator
+// -----------------------------------------------------------------------------
+// City costs (USD per day) for Trip Calculator
+// -----------------------------------------------------------------------------
 export const cityCosts = {
   Hyderabad: 50,
   Paris: 150,

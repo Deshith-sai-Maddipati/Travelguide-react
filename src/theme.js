@@ -1,22 +1,28 @@
 /**
- * Design tokens for styled-components (matches index.css :root)
+ * WanderWorld – Design Tokens (Theme)
+ *
+ * Single source of truth for colors, spacing, shadows, and transitions.
+ * Used by styled-components via ThemeProvider. Values align with index.css :root
+ * for consistency where plain CSS is used.
  */
+
 export const theme = {
   colors: {
-    primary: '#2C5F7C',
-    primaryDark: '#1A5F7A',
-    header: '#1E3A5F',
+    primary: '#E86C00',       // Main brand, hero, CTAs
+    primaryDark: '#CC5C00',  // Gradients, buttons
+    header: '#1A1A1A',       // Nav and footer background
     text: '#1C1917',
-    bg: '#F8F9FA',
+    bg: '#FFF8F5',           // Page background (cream)
+    border: '#FFD4B8',       // Borders and dividers
     white: '#FFFFFF',
-    accent: '#FFB84D',
-    border: '#E5E7EB',
+    accent: '#E86C00',       // Highlights, hover
+    accentDark: '#B85800',   // Hover states
   },
   shadows: {
-    sm: '0 4px 8px rgba(44, 95, 124, 0.3)',
-    md: '0 4px 20px rgba(30, 58, 95, 0.12)',
-    lg: '0 8px 30px rgba(30, 58, 95, 0.18)',
-    xl: '0 8px 20px rgba(44, 95, 124, 0.4)',
+    sm: '0 1px 3px rgba(232, 108, 0, 0.15)',
+    md: '0 4px 20px rgba(232, 108, 0, 0.18)',
+    lg: '0 8px 30px rgba(232, 108, 0, 0.2)',
+    xl: '0 12px 40px rgba(232, 108, 0, 0.25)',
   },
   spacing: {
     xs: '0.25rem',

@@ -1,5 +1,13 @@
+/**
+ * WanderWorld – Root App Component
+ *
+ * Wraps the app in ThemeProvider (styled-components) and BrowserRouter (React Router).
+ * Defines all top-level routes; Layout wraps child routes and provides header/footer + Outlet.
+ */
+
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import { theme } from './theme';
 import Layout from './components/Layout';
 import Home from './pages/Home';
@@ -12,16 +20,17 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="destinations" element={<Destinations />} />
-          <Route path="gallery" element={<Gallery />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="trip-calculator" element={<TripCalculator />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+        <Routes>
+          {/* Layout wraps all pages: header, main content (Outlet), footer */}
+          <Route element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="destinations" element={<Destinations />} />
+            <Route path="gallery" element={<Gallery />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="trip-calculator" element={<TripCalculator />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
