@@ -5,7 +5,7 @@
  * expandable description, and loading/error states for the image.
  */
 
-import { useState } from 'react';
+import { memo, useState } from 'react';
 
 import {
   Card,
@@ -16,7 +16,7 @@ import {
   CardDescription,
 } from '../styles';
 
-export default function DestinationCard({ destination, isFilteredOut }) {
+function DestinationCard({ destination, isFilteredOut }) {
   const [showDescription, setShowDescription] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -62,3 +62,5 @@ export default function DestinationCard({ destination, isFilteredOut }) {
     </Card>
   );
 }
+
+export default memo(DestinationCard);
