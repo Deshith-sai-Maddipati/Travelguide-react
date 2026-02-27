@@ -378,7 +378,9 @@ export const SearchInput = styled.input`
 
 export const CardsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, 300px);
+  justify-content: center;
+  align-items: start;
   gap: ${({ theme }) => theme.spacing['2xl']};
   padding: ${({ theme }) => theme.spacing.xl};
 
@@ -399,6 +401,14 @@ export const CardsGrid = styled.div`
   }
 `;
 
+export const NoResultsMessage = styled.p`
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: ${({ theme }) => theme.spacing['2xl']};
+  color: ${({ theme }) => theme.colors.textMuted};
+  font-size: 1.1rem;
+`;
+
 // =============================================================================
 // DESTINATION CARD – Card, image container, spinner, button, description
 // =============================================================================
@@ -410,6 +420,8 @@ const spin = keyframes`
 `;
 
 export const Card = styled.article`
+  display: flex;
+  flex-direction: column;
   background-color: ${({ theme }) => theme.colors.white};
   box-shadow: ${({ theme }) => theme.shadows.md};
   padding: ${({ theme }) => theme.spacing.lg};
@@ -421,18 +433,6 @@ export const Card = styled.article`
     transform: translateY(-4px);
     box-shadow: ${({ theme }) => theme.shadows.lg};
   }
-
-  ${({ $isFilteredOut }) =>
-    $isFilteredOut &&
-    `
-    background-color: #E5E7EB;
-    opacity: 0.5;
-    filter: grayscale(0.3);
-
-    &:hover {
-      opacity: 0.6;
-    }
-  `}
 
   h3 {
     margin-bottom: ${({ theme }) => theme.spacing.sm};
@@ -465,7 +465,8 @@ export const Card = styled.article`
 export const PictureContainer = styled.div`
   position: relative;
   width: 100%;
-  min-height: 200px;
+  aspect-ratio: 16 / 9;
+  flex-shrink: 0;
   display: block;
   border-radius: 8px;
   overflow: hidden;
@@ -475,8 +476,21 @@ export const PictureContainer = styled.div`
   picture,
   img {
     width: 100%;
+    height: 100%;
     display: block;
+    object-fit: cover;
     border-radius: 8px;
+  }
+
+  @media (max-width: 768px) {
+    aspect-ratio: auto;
+    min-height: 180px;
+
+    picture,
+    img {
+      height: auto;
+      object-fit: contain;
+    }
   }
 `;
 
@@ -524,7 +538,7 @@ export const LearnMoreButton = styled.button`
   text-decoration: none;
   box-shadow: ${({ theme }) => theme.shadows.sm};
   transition: ${({ theme }) => theme.transitionFast};
-  margin-top: ${({ theme }) => theme.spacing.sm};
+  margin-top: auto;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.primaryDark};
@@ -615,6 +629,77 @@ export const GalleryCaption = styled.figcaption`
   font-size: 0.9rem;
   color: ${({ theme }) => theme.colors.text};
   text-align: center;
+`;
+
+/** Carousel: one image at a time, all same size, circular navigation */
+export const GalleryCarousel = styled.div`
+  margin-top: ${({ theme }) => theme.spacing.xl};
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+export const GalleryCarouselWrap = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.md};
+`;
+
+export const GalleryCarouselViewport = styled.div`
+  flex: 1;
+  overflow: hidden;
+  border-radius: 12px;
+  aspect-ratio: 16 / 9;
+`;
+
+export const GalleryCarouselTrack = styled.div`
+  display: flex;
+  transition: ${({ $skipTransition }) => ($skipTransition ? 'none' : 'transform 0.3s ease')};
+  transform: translateX(${({ $index }) => `-${$index * 100}%`});
+  height: 100%;
+`;
+
+export const GalleryCarouselSlide = styled.figure`
+  flex: 0 0 100%;
+  min-width: 100%;
+  margin: 0;
+  height: 100%;
+`;
+
+export const GalleryCarouselImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+`;
+
+export const GalleryCarouselCaption = styled.p`
+  margin-top: ${({ theme }) => theme.spacing.sm};
+  font-size: 0.95rem;
+  color: ${({ theme }) => theme.colors.text};
+  text-align: center;
+  font-weight: 500;
+`;
+
+export const GalleryCarouselBtn = styled.button`
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.primary};
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: ${({ theme }) => theme.transition};
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.white};
+    transform: scale(1.08);
+  }
 `;
 
 // =============================================================================
@@ -708,6 +793,115 @@ export const ContactSocial = styled.p`
   }
 `;
 
+/** Single contact info row with icon */
+export const ContactItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.md};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.md};
+  border-radius: 8px;
+  background: ${({ theme }) => theme.colors.bg};
+  transition: ${({ theme }) => theme.transition};
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.border};
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 480px) {
+    padding: ${({ theme }) => theme.spacing.sm};
+    gap: ${({ theme }) => theme.spacing.sm};
+  }
+`;
+
+/** Icon wrapper in contact items */
+export const ContactIcon = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 10px;
+  background: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.white};
+  font-size: 1.25rem;
+
+  svg {
+    width: 1.25em;
+    height: 1.25em;
+    flex-shrink: 0;
+  }
+`;
+
+/** Clickable contact link (mailto, tel, maps) */
+export const ContactLink = styled.a`
+  color: ${({ theme }) => theme.colors.primary};
+  text-decoration: none;
+  font-weight: 500;
+  transition: ${({ theme }) => theme.transition};
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.accentDark};
+    text-decoration: underline;
+  }
+`;
+
+/** Grid of social links */
+export const ContactSocialGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: ${({ theme }) => theme.spacing.md};
+  margin-top: ${({ theme }) => theme.spacing.sm};
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
+
+/** Subtle hint text (e.g. "Opens in Maps") */
+export const ContactHint = styled.span`
+  font-size: 0.8em;
+  color: ${({ theme }) => theme.colors.textMuted};
+  margin-left: 0.25rem;
+`;
+
+/** Individual social link button */
+export const ContactSocialLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  background: ${({ theme }) => theme.colors.bg};
+  color: ${({ theme }) => theme.colors.text};
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: ${({ theme }) => theme.transition};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.white};
+    border-color: ${({ theme }) => theme.colors.primary};
+    transform: translateY(-2px);
+    box-shadow: ${({ theme }) => theme.shadows.sm};
+  }
+
+  svg {
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+  }
+`;
+
 // =============================================================================
 // TRIP CALCULATOR – Form container, inputs, submit button, result
 // =============================================================================
@@ -775,6 +969,13 @@ export const CalculatorFormGroup = styled.div`
   @media (max-width: 480px) {
     margin-bottom: ${({ theme }) => theme.spacing.md};
   }
+`;
+
+export const CalculatorError = styled.span`
+  display: block;
+  color: #c00;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 `;
 
 export const CalculatorLabel = styled.label`
@@ -903,4 +1104,32 @@ export const CalculatorResultMessage = styled.p`
   @media (max-width: 480px) {
     font-size: 0.9rem;
   }
+`;
+
+/** Itemized cost breakdown list */
+export const CalculatorBreakdown = styled.ul`
+  list-style: none;
+  margin: ${({ theme }) => theme.spacing.lg} 0 0;
+  padding: ${({ theme }) => theme.spacing.md} 0 0;
+`;
+
+export const CalculatorBreakdownItem = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: ${({ theme }) => theme.spacing.sm} 0;
+  font-size: 1rem;
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+export const CalculatorBreakdownTotal = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: ${({ theme }) => theme.spacing.md} 0 0;
+  margin-top: ${({ theme }) => theme.spacing.sm};
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.header};
+  border-top: 2px solid ${({ theme }) => theme.colors.primary};
 `;

@@ -16,7 +16,7 @@ import {
   CardDescription,
 } from '../styles';
 
-function DestinationCard({ destination, isFilteredOut }) {
+function DestinationCard({ destination }) {
   const [showDescription, setShowDescription] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -26,7 +26,7 @@ function DestinationCard({ destination, isFilteredOut }) {
     : (destination.desktopImage || destination.fallbackImage);
 
   return (
-    <Card $isFilteredOut={isFilteredOut}>
+    <Card>
       <PictureContainer>
         {!imageLoaded && !imageError && (
           <LoadingSpinner>

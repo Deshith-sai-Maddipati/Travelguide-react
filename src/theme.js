@@ -12,6 +12,7 @@ export const theme = {
     primaryDark: '#CC5C00',  // Gradients, buttons
     header: '#1A1A1A',       // Nav and footer background
     text: '#1C1917',
+    textMuted: '#6B7280',
     bg: '#FFF8F5',           // Page background (cream)
     border: '#FFD4B8',       // Borders and dividers
     white: '#FFFFFF',

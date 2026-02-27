@@ -2,12 +2,12 @@
  * WanderWorld – Destinations Page
  *
  * Lists all destinations as cards with a debounced search that filters
- * by name, tagline, or description. Non-matching cards are visually
- * dimmed (isFilteredOut) but remain in the DOM.
+ * by name, tagline, or description. Only matching cards are shown.
  */
 
-import { useMemo, useState, useRef, useEffect } from 'react';
+import { useMemo, useState } from 'react';
 
+import { useDebounce } from '../hooks/useDebounce';
 import { destinations } from '../data/destinations';
 import DestinationCard from '../components/DestinationCard';
 import {
@@ -15,47 +15,32 @@ import {
   SearchContainer,
   SearchInput,
   CardsGrid,
+  NoResultsMessage,
 } from '../styles';
 
 /**
- * Builds a map of destination id -> true if it does NOT match the search query.
- * Used to dim non-matching cards while keeping them in the layout.
+ * Returns only destinations that match the search query (name, tagline, or description).
+ * When query is empty, returns all destinations.
  */
-function getMatchMap(list, query) {
+function getFilteredDestinations(list, query) {
   const q = query.toLowerCase().trim();
-  if (!q) return {};
-  const matchMap = {};
-  list.forEach((d) => {
-    const matches =
+  if (!q) return list;
+  return list.filter(
+    (d) =>
       d.name.toLowerCase().includes(q) ||
       d.tagline.toLowerCase().includes(q) ||
-      d.description.toLowerCase().includes(q);
-    matchMap[d.id] = !matches;
-  });
-  return matchMap;
+      d.description.toLowerCase().includes(q)
+  );
 }
 
 export default function Destinations() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const debounceRef = useRef(null);
+  const [searchInput, setSearchInput] = useState('');
+  const debouncedSearch = useDebounce(searchInput, 300);
 
-  // Clear debounce timer on unmount
-  useEffect(() => {
-    return () => {
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-    };
-  }, []);
-
-  const matchMap = useMemo(
-    () => getMatchMap(destinations, searchQuery),
-    [searchQuery]
+  const filteredDestinations = useMemo(
+    () => getFilteredDestinations(destinations, debouncedSearch),
+    [debouncedSearch]
   );
-
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => setSearchQuery(value), 300);
-  };
 
   return (
     <DestinationsSection>
@@ -64,18 +49,21 @@ export default function Destinations() {
         <SearchInput
           type="search"
           placeholder="Search destinations..."
-          onChange={handleSearchChange}
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
           aria-label="Search destinations"
         />
       </SearchContainer>
       <CardsGrid id="destinations-container">
-        {destinations.map((dest) => (
-          <DestinationCard
-            key={dest.id}
-            destination={dest}
-            isFilteredOut={!!matchMap[dest.id]}
-          />
-        ))}
+        {filteredDestinations.length > 0 ? (
+          filteredDestinations.map((dest) => (
+            <DestinationCard key={dest.id} destination={dest} />
+          ))
+        ) : (
+          <NoResultsMessage>
+            No destinations match your search. Try a different term.
+          </NoResultsMessage>
+        )}
       </CardsGrid>
     </DestinationsSection>
   );
