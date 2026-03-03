@@ -631,9 +631,23 @@ export const GalleryCaption = styled.figcaption`
   text-align: center;
 `;
 
+/** Per-city carousel block: city heading + carousel */
+export const GalleryCityBlock = styled.div`
+  margin-top: ${({ theme }) => theme.spacing['2xl']};
+
+  &:first-of-type {
+    margin-top: ${({ theme }) => theme.spacing.xl};
+  }
+
+  h3 {
+    color: ${({ theme }) => theme.colors.header};
+    font-size: 1.25rem;
+    margin-bottom: ${({ theme }) => theme.spacing.md};
+  }
+`;
+
 /** Carousel: one image at a time, all same size, circular navigation */
 export const GalleryCarousel = styled.div`
-  margin-top: ${({ theme }) => theme.spacing.xl};
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
@@ -669,7 +683,7 @@ export const GalleryCarouselSlide = styled.figure`
 export const GalleryCarouselImg = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: ${({ $isMobile }) => ($isMobile ? 'contain' : 'cover')};
   display: block;
   border-radius: 12px;
 `;
@@ -695,10 +709,15 @@ export const GalleryCarouselBtn = styled.button`
   font-weight: bold;
   transition: ${({ theme }) => theme.transition};
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: ${({ theme }) => theme.colors.primary};
     color: ${({ theme }) => theme.colors.white};
     transform: scale(1.08);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 `;
 
