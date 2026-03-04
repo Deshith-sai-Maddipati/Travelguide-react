@@ -2,7 +2,8 @@
  * WanderWorld – Destination Card Component
  *
  * Renders a single destination: responsive image (mobile/desktop), name, tagline,
- * expandable description, and loading/error states for the image.
+ * expandable description via Learn More button, and loading/error states for the image.
+ * Clicking anywhere on the card (except Learn More) opens a modal; Learn More toggles inline description.
  */
 
 import { memo, useState } from 'react';
@@ -16,7 +17,7 @@ import {
   CardDescription,
 } from '../styles';
 
-function DestinationCard({ destination }) {
+function DestinationCard({ destination, onCardClick }) {
   const [showDescription, setShowDescription] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -25,8 +26,16 @@ function DestinationCard({ destination }) {
     ? destination.fallbackImage
     : (destination.desktopImage || destination.fallbackImage);
 
+  const handleLearnMoreClick = (e) => {
+    e.stopPropagation();
+    setShowDescription((prev) => !prev);
+  };
+
   return (
-    <Card>
+    <Card
+      $clickable={!!onCardClick}
+      onClick={onCardClick ? () => onCardClick(destination) : undefined}
+    >
       <PictureContainer>
         {!imageLoaded && !imageError && (
           <LoadingSpinner>
@@ -52,7 +61,7 @@ function DestinationCard({ destination }) {
 
       <LearnMoreButton
         type="button"
-        onClick={() => setShowDescription((prev) => !prev)}
+        onClick={handleLearnMoreClick}
       >
         {showDescription ? 'Show Less' : 'Learn More'}
       </LearnMoreButton>

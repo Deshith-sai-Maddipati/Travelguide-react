@@ -1,23 +1,115 @@
 /**
  * WanderWorld – Gallery Page
  *
- * Per-city carousels. Each city has 2 images (desktop + mobile), all same size (16:9).
+ * City dropdown + single carousel. Fetches Unsplash photos for the selected city.
  */
 
-import { destinations } from '../data/destinations';
+import { useState, useEffect } from 'react';
 import CityCarousel from '../components/CityCarousel';
 
-import { GallerySection, GalleryWrapper } from '../styles';
+import {
+  GallerySection,
+  GalleryWrapper,
+  GalleryDropdownWrapper,
+  GalleryDropdownLabel,
+  GallerySelect,
+  GalleryMessage,
+} from '../styles';
+
+const CITIES = [
+  'Hyderabad', 'Paris', 'Tokyo', 'Bali', 'Barcelona', 'Rome',
+  'New York', 'London', 'Dubai', 'Sydney', 'Amsterdam', 'Bangkok',
+  'Lisbon', 'Cape Town', 'Kerala', 'Singapore',
+];
+
+const UNSPLASH_ACCESS_KEY = 'Q913ARd1rH_glUJxYHy2d3IcGvP5-_VobsQmWJ8KUrM';
+
+function fetchCityImages(city) {
+  const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(city)}&client_id=${UNSPLASH_ACCESS_KEY}&per_page=8`;
+  return fetch(url)
+    .then((res) => {
+      if (!res.ok) throw new Error(`Failed to fetch ${city}`);
+      return res.json();
+    })
+    .then((data) => {
+      const images = (data.results || []).map((photo) => {
+        const src = photo.urls?.raw ; //|| photo.urls?.full || photo.urls?.raw || '';
+        return {
+          src,
+          alt: photo.alt_description || photo.description || `${city} photo`,
+        };
+      });
+      return { id: city.toLowerCase().replace(/\s+/g, '-'), name: city, images };
+    });
+}
 
 export default function Gallery() {
+  const [selectedCity, setSelectedCity] = useState('');
+  const [cityData, setCityData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!selectedCity) {
+      setCityData(null);
+      setError(null);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    fetchCityImages(selectedCity)
+      .then((data) => {
+        setCityData(data);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setCityData(null);
+        console.error('Error fetching gallery:', err);
+      })
+      .finally(() => setLoading(false));
+  }, [selectedCity]);
+
   return (
     <GallerySection>
       <GalleryWrapper>
         <h2>Gallery</h2>
-        <p>Explore our collection of stunning destination images.</p>
-        {destinations.map((d) => (
-          <CityCarousel key={d.id} destination={d} />
-        ))}
+        <p>Explore stunning destination images. Select a city to view its photos.</p>
+
+        <GalleryDropdownWrapper>
+          <GalleryDropdownLabel htmlFor="gallery-city-select">
+            Choose a destination
+          </GalleryDropdownLabel>
+          <GallerySelect
+            id="gallery-city-select"
+            value={selectedCity}
+            onChange={(e) => setSelectedCity(e.target.value)}
+            aria-label="Select city for gallery"
+          >
+            <option value="">Select a city…</option>
+            {CITIES.map((city) => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))}
+          </GallerySelect>
+        </GalleryDropdownWrapper>
+
+        {loading && (
+          <GalleryMessage>Loading photos…</GalleryMessage>
+        )}
+        {error && (
+          <GalleryMessage $error>Error: {error}</GalleryMessage>
+        )}
+        {!loading && !error && cityData && cityData.images?.length > 0 && (
+          <CityCarousel city={cityData} />
+        )}
+        {!loading && !error && selectedCity && cityData && (!cityData.images || cityData.images.length === 0) && (
+          <GalleryMessage>No images found for {selectedCity}.</GalleryMessage>
+        )}
+        {!selectedCity && !loading && (
+          <GalleryMessage>Select a city above to explore its gallery.</GalleryMessage>
+        )}
       </GalleryWrapper>
     </GallerySection>
   );

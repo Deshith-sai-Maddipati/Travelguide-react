@@ -1,8 +1,7 @@
 /**
  * WanderWorld – City Carousel
  *
- * Per-city carousel showing desktop + mobile images. All images same size (16:9).
- * Linear prev/next navigation (no wrap).
+ * Per-city carousel with multiple images. Linear prev/next navigation (no wrap).
  */
 
 import { useState } from 'react';
@@ -19,22 +18,19 @@ import {
   GalleryCarouselBtn,
 } from '../styles';
 
-export default function CityCarousel({ destination }) {
-  const images = [
-    { key: 'desktop', src: destination.desktopImage, alt: `${destination.name} (desktop)` },
-    { key: 'mobile', src: destination.mobileImage, alt: `${destination.name} (mobile)` },
-  ];
+export default function CityCarousel({ city }) {
+  const { name, images } = city;
   const [index, setIndex] = useState(0);
-  const n = images.length;
+  const n = images?.length || 0;
 
   const goPrev = () => setIndex((i) => Math.max(0, i - 1));
   const goNext = () => setIndex((i) => Math.min(n - 1, i + 1));
 
-  const labels = ['Desktop view', 'Mobile view'];
+  if (!n) return null;
 
   return (
     <GalleryCityBlock>
-      <h3>{destination.name}</h3>
+      <h3>{name}</h3>
       <GalleryCarousel>
         <GalleryCarouselWrap>
           <GalleryCarouselBtn
@@ -47,9 +43,9 @@ export default function CityCarousel({ destination }) {
           </GalleryCarouselBtn>
           <GalleryCarouselViewport>
             <GalleryCarouselTrack $index={index}>
-              {images.map((img) => (
-                <GalleryCarouselSlide key={img.key}>
-                  <GalleryCarouselImg src={img.src} alt={img.alt} loading="lazy" $isMobile={img.key === 'mobile'} />
+              {images.map((img, i) => (
+                <GalleryCarouselSlide key={i}>
+                  <GalleryCarouselImg src={img.src} alt={img.alt} loading="lazy" />
                 </GalleryCarouselSlide>
               ))}
             </GalleryCarouselTrack>
@@ -63,7 +59,9 @@ export default function CityCarousel({ destination }) {
             ›
           </GalleryCarouselBtn>
         </GalleryCarouselWrap>
-        <GalleryCarouselCaption>{labels[index]}</GalleryCarouselCaption>
+        <GalleryCarouselCaption>
+          {index + 1} / {n}
+        </GalleryCarouselCaption>
       </GalleryCarousel>
     </GalleryCityBlock>
   );

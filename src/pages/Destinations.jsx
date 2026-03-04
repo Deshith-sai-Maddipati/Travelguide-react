@@ -3,13 +3,15 @@
  *
  * Lists all destinations as cards with a debounced search that filters
  * by name, tagline, or description. Only matching cards are shown.
+ * Clicking the card opens a modal; Learn More toggles inline description.
  */
 
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { useDebounce } from '../hooks/useDebounce';
 import { destinations } from '../data/destinations';
 import DestinationCard from '../components/DestinationCard';
+import DestinationModal from '../components/DestinationModal';
 import {
   DestinationsSection,
   SearchContainer,
@@ -35,12 +37,17 @@ function getFilteredDestinations(list, query) {
 
 export default function Destinations() {
   const [searchInput, setSearchInput] = useState('');
+  const [selectedDestination, setSelectedDestination] = useState(null);
   const debouncedSearch = useDebounce(searchInput, 300);
 
   const filteredDestinations = useMemo(
     () => getFilteredDestinations(destinations, debouncedSearch),
     [debouncedSearch]
   );
+
+  const handleCardClick = useCallback((dest) => {
+    setSelectedDestination(dest);
+  }, []);
 
   return (
     <DestinationsSection>
@@ -57,7 +64,11 @@ export default function Destinations() {
       <CardsGrid id="destinations-container">
         {filteredDestinations.length > 0 ? (
           filteredDestinations.map((dest) => (
-            <DestinationCard key={dest.id} destination={dest} />
+            <DestinationCard
+              key={dest.id}
+              destination={dest}
+              onCardClick={handleCardClick}
+            />
           ))
         ) : (
           <NoResultsMessage>
@@ -65,6 +76,10 @@ export default function Destinations() {
           </NoResultsMessage>
         )}
       </CardsGrid>
+      <DestinationModal
+        destination={selectedDestination}
+        onClose={() => setSelectedDestination(null)}
+      />
     </DestinationsSection>
   );
 }

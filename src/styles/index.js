@@ -428,6 +428,7 @@ export const Card = styled.article`
   border-radius: 12px;
   border: 1px solid ${({ theme }) => theme.colors.border};
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  ${({ $clickable }) => $clickable && 'cursor: pointer;'}
 
   &:hover {
     transform: translateY(-4px);
@@ -568,6 +569,121 @@ export const CardDescription = styled.p`
 `;
 
 // =============================================================================
+// MODAL – Overlay, content, close button, image, body
+// =============================================================================
+
+/** Full-screen overlay for modal (click to close) */
+export const ModalOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: ${({ theme }) => theme.spacing.lg};
+  animation: fadeIn 0.2s ease-out;
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+`;
+
+/** Modal content box (stops click propagation) */
+export const ModalContent = styled.div`
+  position: relative;
+  max-width: 560px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: ${({ theme }) => theme.colors.white};
+  border-radius: 12px;
+  box-shadow: ${({ theme }) => theme.shadows.xl};
+  animation: slideUp 0.3s ease-out;
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+
+/** Close button (top-right) */
+export const ModalCloseButton = styled.button`
+  position: absolute;
+  top: ${({ theme }) => theme.spacing.sm};
+  right: ${({ theme }) => theme.spacing.sm};
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: ${({ theme }) => theme.colors.white};
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 1;
+  transition: ${({ theme }) => theme.transition};
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.primary};
+  }
+`;
+
+/** Modal image area */
+export const ModalImage = styled.div`
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+`;
+
+/** Modal text content */
+export const ModalBody = styled.div`
+  padding: ${({ theme }) => theme.spacing.xl};
+
+  h2 {
+    margin: 0 0 ${({ theme }) => theme.spacing.sm};
+    font-size: 1.5rem;
+    color: ${({ theme }) => theme.colors.header};
+  }
+
+  .tagline {
+    margin: 0 0 ${({ theme }) => theme.spacing.md};
+    font-size: 0.95rem;
+    color: ${({ theme }) => theme.colors.primary};
+    font-weight: 600;
+  }
+
+  .description {
+    margin: 0;
+    line-height: 1.6;
+    color: ${({ theme }) => theme.colors.text};
+  }
+`;
+
+// =============================================================================
 // GALLERY – Section, grid, item, image, caption
 // =============================================================================
 
@@ -592,6 +708,75 @@ export const GalleryWrapper = styled.div`
   h2 {
     color: ${({ theme }) => theme.colors.header};
   }
+`;
+
+/** Dropdown wrapper for city selection in gallery */
+export const GalleryDropdownWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.md};
+  margin: ${({ theme }) => theme.spacing.xl} 0 ${({ theme }) => theme.spacing['2xl']};
+  padding: ${({ theme }) => theme.spacing.lg};
+  background: linear-gradient(135deg, rgba(232, 108, 0, 0.06) 0%, rgba(255, 212, 184, 0.2) 100%);
+  border-radius: 12px;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+
+  @media (max-width: 768px) {
+    margin: ${({ theme }) => theme.spacing.lg} 0 ${({ theme }) => theme.spacing.xl};
+    padding: ${({ theme }) => theme.spacing.md};
+  }
+`;
+
+export const GalleryDropdownLabel = styled.label`
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.header};
+  font-size: 1rem;
+  white-space: nowrap;
+`;
+
+export const GallerySelect = styled.select`
+  flex: 1;
+  min-width: 200px;
+  max-width: 320px;
+  padding: 12px 40px 12px 16px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.header};
+  background-color: ${({ theme }) => theme.colors.white};
+  border: 2px solid ${({ theme }) => theme.colors.border};
+  border-radius: 10px;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23E86C00' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 20px;
+  box-shadow: ${({ theme }) => theme.shadows.sm};
+  transition: ${({ theme }) => theme.transition};
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 0 0 3px rgba(232, 108, 0, 0.15);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 0 0 4px rgba(232, 108, 0, 0.2);
+  }
+
+  @media (max-width: 480px) {
+    min-width: 100%;
+    max-width: none;
+  }
+`;
+
+export const GalleryMessage = styled.p`
+  text-align: center;
+  padding: ${({ theme }) => theme.spacing['2xl']};
+  color: ${({ theme, $error }) => ($error ? '#b91c1c' : theme.colors.textMuted)};
+  margin: 0;
 `;
 
 export const GalleryGrid = styled.div`
@@ -683,7 +868,7 @@ export const GalleryCarouselSlide = styled.figure`
 export const GalleryCarouselImg = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: ${({ $isMobile }) => ($isMobile ? 'contain' : 'cover')};
+  object-fit: contain;
   display: block;
   border-radius: 12px;
 `;
