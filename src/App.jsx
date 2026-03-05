@@ -1,24 +1,51 @@
+/**
+ * WanderWorld – Root App Component
+ *
+ * Wraps the app in ThemeProvider (styled-components) and BrowserRouter (React Router).
+ * Defines all top-level routes; Layout wraps child routes and provides header/footer + Outlet.
+ * Pages are lazy-loaded for smaller initial bundle and faster first paint.
+ */
+
+import { lazy, Suspense } from 'react';
+import { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import { theme } from './theme';
 import Layout from './components/Layout';
-import Home from './pages/Home';
-import Destinations from './pages/Destinations';
-import Gallery from './pages/Gallery';
-import Contact from './pages/Contact';
-import TripCalculator from './pages/TripCalculator';
+
+// Lazy-load pages so each route is in its own chunk (code splitting)
+const Home = lazy(() => import('./pages/Home'));
+const Destinations = lazy(() => import('./pages/Destinations'));
+const Gallery = lazy(() => import('./pages/Gallery'));
+const Contact = lazy(() => import('./pages/Contact'));
+const TripCalculator = lazy(() => import('./pages/TripCalculator'));
+
+function RouteFallback() {
+  return (
+    <div style={{ padding: '2rem', textAlign: 'center' }} aria-live="polite">
+      Loading…
+    </div>
+  );
+}
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="destinations" element={<Destinations />} />
-          <Route path="gallery" element={<Gallery />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="trip-calculator" element={<TripCalculator />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Suspense fallback={<RouteFallback />}>
+          <Routes>
+            {/* Layout wraps all pages: header, main content (Outlet), footer */}
+            <Route element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="destinations" element={<Destinations />} />
+              <Route path="gallery" element={<Gallery />} />
+              <Route path="contact" element={<Contact />} />
+              <Route path="trip-calculator" element={<TripCalculator />} />
+            </Route>
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

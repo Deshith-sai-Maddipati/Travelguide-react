@@ -1,20 +1,47 @@
-import { useState } from 'react';
+/**
+ * WanderWorld – Destination Card Component
+ *
+ * Renders a single destination: responsive image (mobile/desktop), name, tagline,
+ * expandable description via Learn More button, and loading/error states for the image.
+ * Clicking anywhere on the card (except Learn More) opens a modal; Learn More toggles inline description.
+ */
 
-export default function DestinationCard({ destination, isFilteredOut }) {
+import { memo, useState } from 'react';
+
+import {
+  Card,
+  PictureContainer,
+  LoadingSpinner,
+  Spinner,
+  LearnMoreButton,
+  CardDescription,
+} from '../styles';
+
+function DestinationCard({ destination, onCardClick }) {
   const [showDescription, setShowDescription] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  const imgSrc = imageError ? destination.fallbackImage : (destination.desktopImage || destination.fallbackImage);
+  const imgSrc = imageError
+    ? destination.fallbackImage
+    : (destination.desktopImage || destination.fallbackImage);
+
+  const handleLearnMoreClick = (e) => {
+    e.stopPropagation();
+    setShowDescription((prev) => !prev);
+  };
 
   return (
-    <article className={`card ${isFilteredOut ? 'search-no-match' : ''}`}>
-      <div className="picture-container">
+    <Card
+      $clickable={!!onCardClick}
+      onClick={onCardClick ? () => onCardClick(destination) : undefined}
+    >
+      <PictureContainer>
         {!imageLoaded && !imageError && (
-          <div className="loading-spinner">
-            <div className="spinner" />
+          <LoadingSpinner>
+            <Spinner />
             <p>Loading...</p>
-          </div>
+          </LoadingSpinner>
         )}
         <picture>
           <source srcSet={destination.mobileImage} media="(max-width: 600px)" />
@@ -27,19 +54,22 @@ export default function DestinationCard({ destination, isFilteredOut }) {
             onError={() => setImageError(true)}
           />
         </picture>
-      </div>
+      </PictureContainer>
+
       <h3>{destination.name}</h3>
       <p>{destination.tagline}</p>
-      <button
+
+      <LearnMoreButton
         type="button"
-        className="btn learn-more"
-        onClick={() => setShowDescription((prev) => !prev)}
+        onClick={handleLearnMoreClick}
       >
         {showDescription ? 'Show Less' : 'Learn More'}
-      </button>
-      {showDescription && (
-        <p className="descriptions show">{destination.description}</p>
-      )}
-    </article>
+      </LearnMoreButton>
+      <CardDescription $show={showDescription}>
+        {destination.description}
+      </CardDescription>
+    </Card>
   );
 }
+
+export default memo(DestinationCard);

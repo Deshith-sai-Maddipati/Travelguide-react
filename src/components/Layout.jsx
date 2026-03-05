@@ -1,34 +1,54 @@
-import { Outlet, Link, NavLink } from 'react-router-dom';
+/**
+ * WanderWorld – Layout Component
+ *
+ * Shared shell for all pages: site header (logo + nav), main content area
+ * (Outlet for current route), and footer. Used as the parent route in App.jsx.
+ */
+
+import { Outlet } from 'react-router-dom';
+
+import {
+  SiteHeader,
+  Logo,
+  Nav,
+  NavLinks,
+  StyledNavLink,
+  Main,
+  SiteFooter,
+} from '../styles';
 
 export default function Layout() {
   const currentYear = new Date().getFullYear();
 
-  const navLinkClass = ({ isActive }) =>
-    isActive ? 'nav-link active' : 'nav-link';
-
   return (
     <>
-      <header className="site-header">
-        <Link to="/" className="logo">
-          WanderWorld
-        </Link>
-        <nav>
-          <ul className="nav-links">
-            <li><NavLink to="/" end className={navLinkClass}>Home</NavLink></li>
-            <li><NavLink to="/destinations" className={navLinkClass}>Destinations</NavLink></li>
-            <li><NavLink to="/gallery" className={navLinkClass}>Gallery</NavLink></li>
-            <li><NavLink to="/contact" className={navLinkClass}>Contact</NavLink></li>
-          </ul>
-        </nav>
-      </header>
+      <SiteHeader>
+        <Logo to="/">WanderWorld</Logo>
+        <Nav>
+          <NavLinks>
+            <li>
+              <StyledNavLink to="/" end>Home</StyledNavLink>
+            </li>
+            <li>
+              <StyledNavLink to="/destinations">Destinations</StyledNavLink>
+            </li>
+            <li>
+              <StyledNavLink to="/gallery">Gallery</StyledNavLink>
+            </li>
+            <li>
+              <StyledNavLink to="/contact">Contact</StyledNavLink>
+            </li>
+          </NavLinks>
+        </Nav>
+      </SiteHeader>
 
-      <main>
+      <Main>
         <Outlet />
-      </main>
+      </Main>
 
-      <footer className="site-footer">
+      <SiteFooter>
         <p>&copy; {currentYear} WanderWorld. All rights reserved.</p>
-      </footer>
+      </SiteFooter>
     </>
   );
 }
