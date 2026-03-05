@@ -2,11 +2,8 @@
  * WanderWorld – Home Page
  *
  * Landing page: hero section, "Why Travel With Us" features, and a link
- * to the Trip Calculator. Includes a demo useEffect that fetches from Picsum
- * (for learning; data is only logged).
+ * to the Trip Calculator.
  */
-
-import { useEffect } from 'react';
 
 import {
   Hero,
@@ -21,34 +18,9 @@ import {
   HomeFeatureIcon,
   HomeTripCalc,
   TripCalcLink,
-} from '../styles';
-
-const PICSUM_LIST_URL = 'https://picsum.photos/v2/list';
+} from '../../styles/HomeStyles';
 
 export default function Home() {
-  // Demo: fetch Picsum photo list on mount (results logged to console)
-  useEffect(() => {
-    fetch(PICSUM_LIST_URL)
-      .then((response) => {
-        if (!response.ok) throw new Error(`HTTP error ${response.status}`);
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Picsum photos (fetch learning):', data);
-        const pictureLinkDetails = data.map((photo) => ({
-          id: photo.id,
-          author: photo.author,
-          sourceUrl: photo.url,
-          downloadUrl: photo.download_url,
-          width: photo.width,
-          height: photo.height,
-        }));
-        console.log('Picture link details (url + download_url per photo):', pictureLinkDetails);
-      })
-      .catch((err) => {
-        console.error('Fetch error:', err);
-      });
-  }, []);
 
   return (
     <>

@@ -16,7 +16,7 @@ import {
   GalleryCarouselImg,
   GalleryCarouselCaption,
   GalleryCarouselBtn,
-} from '../styles';
+} from './ComponentStyles';
 
 export default function CityCarousel({ city }) {
   const { name, images } = city;

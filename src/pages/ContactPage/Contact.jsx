@@ -30,9 +30,9 @@ import {
   ContactIcon,
   ContactLink,
   ContactSocialGrid,
-  ContactSocialLink,
   ContactHint,
-} from '../styles';
+  ContactSocialLink,
+} from './ContactStyles';
 
 const SOCIAL_LINKS = [
   { name: 'X', icon: SiX, url: 'https://x.com/wandeworld', handle: '@wandeworld' },

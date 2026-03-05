@@ -13,7 +13,7 @@ import {
   ModalCloseButton,
   ModalImage,
   ModalBody,
-} from '../styles';
+} from './ComponentStyles';
 
 function DestinationModal({ destination, onClose }) {
   const handleEscape = useCallback(

@@ -15,7 +15,7 @@ import {
   StyledNavLink,
   Main,
   SiteFooter,
-} from '../styles';
+} from './ComponentStyles';
 
 export default function Layout() {
   const currentYear = new Date().getFullYear();

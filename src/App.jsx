@@ -14,11 +14,11 @@ import { theme } from './theme';
 import Layout from './components/Layout';
 
 // Lazy-load pages so each route is in its own chunk (code splitting)
-const Home = lazy(() => import('./pages/Home'));
-const Destinations = lazy(() => import('./pages/Destinations'));
-const Gallery = lazy(() => import('./pages/Gallery'));
-const Contact = lazy(() => import('./pages/Contact'));
-const TripCalculator = lazy(() => import('./pages/TripCalculator'));
+const Home = lazy(() => import('./pages/HomePage/Home'));
+const Destinations = lazy(() => import('./pages/DestinationsPage/Destinations'));
+const Gallery = lazy(() => import('./pages/GalleryPage/Gallery'));
+const Contact = lazy(() => import('./pages/ContactPage/Contact'));
+const TripCalculator = lazy(() => import('./pages/TripCalculatorPage/TripCalculator'));
 
 function RouteFallback() {
   return (

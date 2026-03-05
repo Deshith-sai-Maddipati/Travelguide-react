@@ -15,7 +15,8 @@ import {
   Spinner,
   LearnMoreButton,
   CardDescription,
-} from '../styles';
+  CardTagline,
+} from './ComponentStyles';
 
 function DestinationCard({ destination, onCardClick }) {
   const [showDescription, setShowDescription] = useState(false);
@@ -57,7 +58,7 @@ function DestinationCard({ destination, onCardClick }) {
       </PictureContainer>
 
       <h3>{destination.name}</h3>
-      <p>{destination.tagline}</p>
+      <CardTagline>{destination.tagline}</CardTagline>
 
       <LearnMoreButton
         type="button"

@@ -9,9 +9,11 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { cityCosts, getCostBreakdown } from '../data/destinationsData';
+import { cityCosts, getCostBreakdown } from '../../data/destinationsData';
 import {
+  CalculatorPageWrapper,
   CalculatorMain,
+  CalculatorBackButton,
   CalculatorTitle,
   CalculatorContainer,
   CalculatorFormGroup,
@@ -25,7 +27,7 @@ import {
   CalculatorBreakdown,
   CalculatorBreakdownItem,
   CalculatorBreakdownTotal,
-} from '../styles';
+} from './TripCalculatorStyles';
 
 const cities = Object.keys(cityCosts);
 
@@ -69,9 +71,11 @@ export default function TripCalculator() {
   };
 
   return (
-    <CalculatorMain>
-      <CalculatorTitle>Trip Calculator</CalculatorTitle>
-      <CalculatorContainer>
+    <CalculatorPageWrapper>
+      <CalculatorBackButton to="/">← Back to Home</CalculatorBackButton>
+      <CalculatorMain>
+        <CalculatorTitle>Trip Calculator</CalculatorTitle>
+        <CalculatorContainer>
         <form id="tripCalculatorForm" onSubmit={handleSubmit(onSubmit)}>
           <CalculatorFormGroup>
             <CalculatorLabel htmlFor="city">Place you wish to visit:</CalculatorLabel>
@@ -128,7 +132,8 @@ export default function TripCalculator() {
             </CalculatorBreakdown>
           </CalculatorResult>
         )}
-      </CalculatorContainer>
-    </CalculatorMain>
+        </CalculatorContainer>
+      </CalculatorMain>
+    </CalculatorPageWrapper>
   );
 }

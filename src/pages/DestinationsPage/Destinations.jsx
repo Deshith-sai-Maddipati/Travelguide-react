@@ -8,17 +8,17 @@
 
 import { useCallback, useMemo, useState } from 'react';
 
-import { useDebounce } from '../hooks/useDebounce';
-import { destinationsData } from '../data/destinationsData';
-import DestinationCard from '../components/DestinationCard';
-import DestinationModal from '../components/DestinationModal';
+import { useDebounce } from '../../hooks/useDebounce';
+import { destinationsData } from '../../data/destinationsData';
+import DestinationCard from '../../components/DestinationCard';
+import DestinationModal from '../../components/DestinationModal';
 import {
   DestinationsSection,
   SearchContainer,
   SearchInput,
   CardsGrid,
   NoResultsMessage,
-} from '../styles';
+} from './DestinationsStyles';
 
 /**
  * Returns only destinations that match the search query (name, tagline, or description).
