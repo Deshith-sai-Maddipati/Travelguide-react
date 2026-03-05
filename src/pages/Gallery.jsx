@@ -24,8 +24,10 @@ const CITIES = [
 
 const UNSPLASH_ACCESS_KEY = 'Q913ARd1rH_glUJxYHy2d3IcGvP5-_VobsQmWJ8KUrM';
 
+const GALLERY_ASPECT = { w: 800, h: 450 }; // 16:9
+
 function fetchCityImages(city) {
-  const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(city)}&client_id=${UNSPLASH_ACCESS_KEY}&per_page=8`;
+  const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(city)}&client_id=${UNSPLASH_ACCESS_KEY}&per_page=8&orientation=landscape`;
   return fetch(url)
     .then((res) => {
       if (!res.ok) throw new Error(`Failed to fetch ${city}`);
@@ -33,7 +35,10 @@ function fetchCityImages(city) {
     })
     .then((data) => {
       const images = (data.results || []).map((photo) => {
-        const src = photo.urls?.raw ; //|| photo.urls?.full || photo.urls?.raw || '';
+        const base = photo.urls?.raw || photo.urls?.regular || photo.urls?.full || '';
+        const src = base.includes('?')
+          ? `${base}&w=${GALLERY_ASPECT.w}&h=${GALLERY_ASPECT.h}&fit=scale`
+          : `${base}?w=${GALLERY_ASPECT.w}&h=${GALLERY_ASPECT.h}&fit=scale`;
         return {
           src,
           alt: photo.alt_description || photo.description || `${city} photo`,
@@ -74,7 +79,7 @@ export default function Gallery() {
     <GallerySection>
       <GalleryWrapper>
         <h2>Gallery</h2>
-        <p>Explore stunning destination images. Select a city to view its photos.</p>
+        <p>Explore stunning destination images. Select a city to explore its gallery.</p>
 
         <GalleryDropdownWrapper>
           <GalleryDropdownLabel htmlFor="gallery-city-select">

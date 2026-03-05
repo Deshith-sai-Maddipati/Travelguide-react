@@ -3,7 +3,7 @@
  */
 
 import DestinationCard from './DestinationCard';
-import { destinations } from '../data/destinations';
+import { destinationsData } from '../data/destinationsData';
 
 export default {
   title: 'Components/DestinationCard',
@@ -22,18 +22,18 @@ export default {
 
 export const Default = {
   args: {
-    destination: destinations[0],
+    destination: destinationsData[0],
   },
 };
 
 export const Paris = {
   args: {
-    destination: destinations[1],
+    destination: destinationsData[1],
   },
 };
 
 export const Tokyo = {
   args: {
-    destination: destinations[2],
+    destination: destinationsData[2],
   },
 };
