@@ -41,7 +41,7 @@ import keralaMobile from './Images/kerala-mobile.jpg';
 // -----------------------------------------------------------------------------
 // Destinations list (used by Destinations page and Gallery)
 // -----------------------------------------------------------------------------
-export const destinations = [
+export const destinationsData = [
   {
     id: 'hyderabad',
     name: 'Hyderabad',

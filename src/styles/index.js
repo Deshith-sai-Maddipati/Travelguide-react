@@ -380,7 +380,7 @@ export const CardsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, 300px);
   justify-content: center;
-  align-items: start;
+  align-items: stretch;
   gap: ${({ theme }) => theme.spacing['2xl']};
   padding: ${({ theme }) => theme.spacing.xl};
 
@@ -422,6 +422,7 @@ const spin = keyframes`
 export const Card = styled.article`
   display: flex;
   flex-direction: column;
+  min-height: 100%;
   background-color: ${({ theme }) => theme.colors.white};
   box-shadow: ${({ theme }) => theme.shadows.md};
   padding: ${({ theme }) => theme.spacing.lg};

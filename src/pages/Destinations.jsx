@@ -9,7 +9,7 @@
 import { useCallback, useMemo, useState } from 'react';
 
 import { useDebounce } from '../hooks/useDebounce';
-import { destinations } from '../data/destinations';
+import { destinationsData } from '../data/destinationsData';
 import DestinationCard from '../components/DestinationCard';
 import DestinationModal from '../components/DestinationModal';
 import {
@@ -41,7 +41,7 @@ export default function Destinations() {
   const debouncedSearch = useDebounce(searchInput, 300);
 
   const filteredDestinations = useMemo(
-    () => getFilteredDestinations(destinations, debouncedSearch),
+    () => getFilteredDestinations(destinationsData, debouncedSearch),
     [debouncedSearch]
   );
 

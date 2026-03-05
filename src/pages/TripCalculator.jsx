@@ -9,7 +9,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { cityCosts, getCostBreakdown } from '../data/destinations';
+import { cityCosts, getCostBreakdown } from '../data/destinationsData';
 import {
   CalculatorMain,
   CalculatorTitle,
