@@ -18,7 +18,7 @@ import {
   HomeFeatureIcon,
   HomeTripCalc,
   TripCalcLink,
-} from '../../styles/HomeStyles';
+} from './HomeStyles';
 
 export default function Home() {
 
