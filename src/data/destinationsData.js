@@ -234,15 +234,22 @@ export const cityCosts = {
   Singapore: 170,
 };
 
+const DEFAULT_COST_LABELS = {
+  hotel: 'Hotel',
+  food: 'Food',
+  transport: 'Transport',
+  activities: 'Activities',
+};
+
 /** Get itemized cost breakdown for a city (per day) */
-export function getCostBreakdown(city, days) {
+export function getCostBreakdown(city, days, labels = DEFAULT_COST_LABELS) {
   const dailyTotal = cityCosts[city];
   if (!dailyTotal) return null;
   const items = [
-    { label: 'Hotel', amount: Math.round(dailyTotal * dailyBreakdown.hotel * days) },
-    { label: 'Food', amount: Math.round(dailyTotal * dailyBreakdown.food * days) },
-    { label: 'Transport', amount: Math.round(dailyTotal * dailyBreakdown.transport * days) },
-    { label: 'Activities', amount: Math.round(dailyTotal * dailyBreakdown.activities * days) },
+    { label: labels.hotel, amount: Math.round(dailyTotal * dailyBreakdown.hotel * days) },
+    { label: labels.food, amount: Math.round(dailyTotal * dailyBreakdown.food * days) },
+    { label: labels.transport, amount: Math.round(dailyTotal * dailyBreakdown.transport * days) },
+    { label: labels.activities, amount: Math.round(dailyTotal * dailyBreakdown.activities * days) },
   ];
   const total = items.reduce((sum, i) => sum + i.amount, 0);
   return { items, total };

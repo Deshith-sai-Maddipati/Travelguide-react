@@ -7,6 +7,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 
+import { translations } from '../data/translations';
 import {
   GalleryCityBlock,
   GalleryCarousel,
@@ -19,6 +20,8 @@ import {
   GalleryCarouselBtn,
   CarouselShimmer,
 } from './ComponentStyles';
+
+const { cityCarousel } = translations;
 
 export default function CityCarousel({ city }) {
   const { name, images } = city;
@@ -48,7 +51,7 @@ export default function CityCarousel({ city }) {
           <GalleryCarouselBtn
             type="button"
             onClick={goPrev}
-            aria-label="Previous"
+            aria-label={cityCarousel.prevAriaLabel}
             disabled={index === 0}
           >
             ‹
@@ -71,7 +74,7 @@ export default function CityCarousel({ city }) {
           <GalleryCarouselBtn
             type="button"
             onClick={goNext}
-            aria-label="Next"
+            aria-label={cityCarousel.nextAriaLabel}
             disabled={index === n - 1}
           >
             ›

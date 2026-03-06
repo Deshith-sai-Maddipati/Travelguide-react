@@ -11,6 +11,7 @@ import { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { theme } from './theme';
+import { translations } from './data/translations';
 import Layout from './components/Layout';
 
 // Lazy-load pages so each route is in its own chunk (code splitting)
@@ -23,7 +24,7 @@ const TripCalculator = lazy(() => import('./pages/TripCalculatorPage/TripCalcula
 function RouteFallback() {
   return (
     <div style={{ padding: '2rem', textAlign: 'center' }} aria-live="polite">
-      Loading…
+      {translations.app.loadingFallback}
     </div>
   );
 }

@@ -10,6 +10,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { useDebounce } from '../../hooks/useDebounce';
 import { destinationsData } from '../../data/destinationsData';
+import { translations } from '../../data/translations';
 import DestinationCard from '../../components/DestinationCard';
 import DestinationModal from '../../components/DestinationModal';
 import {
@@ -19,6 +20,8 @@ import {
   CardsGrid,
   NoResultsMessage,
 } from './DestinationsStyles';
+
+const { destinations } = translations;
 
 /**
  * Returns only destinations that match the search query (name, tagline, or description).
@@ -51,14 +54,14 @@ export default function Destinations() {
 
   return (
     <DestinationsSection>
-      <h2>Featured Destinations</h2>
+      <h2>{destinations.title}</h2>
       <SearchContainer>
         <SearchInput
           type="search"
-          placeholder="Search destinations..."
+          placeholder={destinations.search.placeholder}
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          aria-label="Search destinations"
+          aria-label={destinations.search.ariaLabel}
         />
       </SearchContainer>
       <CardsGrid id="destinations-container">
@@ -71,9 +74,7 @@ export default function Destinations() {
             />
           ))
         ) : (
-          <NoResultsMessage>
-            No destinations match your search. Try a different term.
-          </NoResultsMessage>
+          <NoResultsMessage>{destinations.noResults}</NoResultsMessage>
         )}
       </CardsGrid>
       <DestinationModal

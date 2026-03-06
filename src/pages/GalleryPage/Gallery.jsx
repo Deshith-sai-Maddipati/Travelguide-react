@@ -8,6 +8,7 @@ import { useState } from 'react';
 import CityCarousel from '../../components/CityCarousel';
 import { useFetch } from '../../hooks/useFetch';
 import { cityCosts } from '../../data/destinationsData';
+import { translations } from '../../data/translations';
 
 import {
   GallerySection,
@@ -19,6 +20,7 @@ import {
 } from './GalleryStyles';
 
 const CITIES = Object.keys(cityCosts);
+const { gallery } = translations;
 
 export default function Gallery() {
   const [selectedCity, setSelectedCity] = useState('');
@@ -28,20 +30,20 @@ export default function Gallery() {
   return (
     <GallerySection>
       <GalleryWrapper>
-        <h2>Gallery</h2>
-        <p>Explore stunning destination images. Select a city to explore its gallery.</p>
+        <h2>{gallery.title}</h2>
+        <p>{gallery.description}</p>
 
         <GalleryDropdownWrapper>
           <GalleryDropdownLabel htmlFor="gallery-city-select">
-            Choose a destination
+            {gallery.dropdown.label}
           </GalleryDropdownLabel>
           <GallerySelect
             id="gallery-city-select"
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
-            aria-label="Select city for gallery"
+            aria-label={gallery.dropdown.ariaLabel}
           >
-            <option value="">Select a city…</option>
+            <option value="">{gallery.dropdown.placeholder}</option>
             {CITIES.map((city) => (
               <option key={city} value={city}>
                 {city}
@@ -51,19 +53,19 @@ export default function Gallery() {
         </GalleryDropdownWrapper>
 
         {loading && (
-          <GalleryMessage>Loading photos…</GalleryMessage>
+          <GalleryMessage>{gallery.messages.loading}</GalleryMessage>
         )}
         {error && (
-          <GalleryMessage $error>Error: {error}</GalleryMessage>
+          <GalleryMessage $error>{gallery.messages.error.replace('{error}', error)}</GalleryMessage>
         )}
         {!loading && !error && cityData && cityData.images?.length > 0 && (
           <CityCarousel city={cityData} />
         )}
         {!loading && !error && selectedCity && cityData && (!cityData.images || cityData.images.length === 0) && (
-          <GalleryMessage>No images found for {selectedCity}.</GalleryMessage>
+          <GalleryMessage>{gallery.messages.noImages.replace('{city}', selectedCity)}</GalleryMessage>
         )}
         {!selectedCity && !loading && (
-          <GalleryMessage>Select a city above to explore its gallery.</GalleryMessage>
+          <GalleryMessage>{gallery.messages.selectCity}</GalleryMessage>
         )}
       </GalleryWrapper>
     </GallerySection>
