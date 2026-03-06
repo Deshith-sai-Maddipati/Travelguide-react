@@ -504,6 +504,44 @@ export const GalleryCityBlock = styled.div`
   }
 `;
 
+// =============================================================================
+// SHIMMER – Loading placeholder for carousel images
+// =============================================================================
+
+const shimmerKeyframes = keyframes`
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+`;
+
+/** Shimmer placeholder shown while carousel images load */
+export const CarouselShimmer = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    ${({ theme }) => theme.colors.border} 0%,
+    ${({ theme }) => theme.colors.white} 25%,
+    ${({ theme }) => theme.colors.border} 50%,
+    ${({ theme }) => theme.colors.white} 75%,
+    ${({ theme }) => theme.colors.border} 100%
+  );
+  background-size: 200% 100%;
+  animation: ${shimmerKeyframes} 1.5s ease-in-out infinite;
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+`;
+
+// =============================================================================
+// CAROUSEL – Gallery carousel
+// =============================================================================
+
 /** Carousel: one image at a time, all same size, circular navigation */
 export const GalleryCarousel = styled.div`
   max-width: 900px;
@@ -532,6 +570,7 @@ export const GalleryCarouselTrack = styled.div`
 `;
 
 export const GalleryCarouselSlide = styled.figure`
+  position: relative;
   flex: 0 0 100%;
   min-width: 100%;
   margin: 0;
