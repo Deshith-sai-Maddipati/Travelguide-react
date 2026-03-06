@@ -12,7 +12,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { theme } from './theme';
 import { translations } from './data/translations';
-import Layout from './components/Layout';
+import Layout from './components/LayoutComponent/Layout';
 
 // Lazy-load pages so each route is in its own chunk (code splitting)
 const Home = lazy(() => import('./pages/HomePage/Home'));

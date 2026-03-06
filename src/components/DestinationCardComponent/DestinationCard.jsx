@@ -8,7 +8,7 @@
 
 import { memo, useState } from 'react';
 
-import { translations } from '../data/translations';
+import { translations } from '../../data/translations';
 import {
   Card,
   PictureContainer,
@@ -17,7 +17,7 @@ import {
   LearnMoreButton,
   CardDescription,
   CardTagline,
-} from './ComponentStyles';
+} from './DestinationCardStyles';
 
 const { destinationCard } = translations;
 

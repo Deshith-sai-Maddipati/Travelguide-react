@@ -7,7 +7,7 @@
 
 import { Outlet } from 'react-router-dom';
 
-import { translations } from '../data/translations';
+import { translations } from '../../data/translations';
 import {
   SiteHeader,
   Logo,
@@ -16,7 +16,7 @@ import {
   StyledNavLink,
   Main,
   SiteFooter,
-} from './ComponentStyles';
+} from './LayoutStyles';
 
 const { common } = translations;
 

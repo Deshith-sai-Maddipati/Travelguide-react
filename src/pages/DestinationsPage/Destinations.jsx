@@ -11,8 +11,8 @@ import { useCallback, useMemo, useState } from 'react';
 import { useDebounce } from '../../hooks/useDebounce';
 import { destinationsData } from '../../data/destinationsData';
 import { translations } from '../../data/translations';
-import DestinationCard from '../../components/DestinationCard';
-import DestinationModal from '../../components/DestinationModal';
+import DestinationCard from '../../components/DestinationCardComponent/DestinationCard';
+import DestinationModal from '../../components/DestinationModalComponent/DestinationModal';
 import {
   DestinationsSection,
   SearchContainer,

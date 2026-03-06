@@ -7,14 +7,14 @@
 
 import { useEffect, useCallback } from 'react';
 
-import { translations } from '../data/translations';
+import { translations } from '../../data/translations';
 import {
   ModalOverlay,
   ModalContent,
   ModalCloseButton,
   ModalImage,
   ModalBody,
-} from './ComponentStyles';
+} from './DestinationModalStyles';
 
 const { destinationModal } = translations;
 

@@ -7,7 +7,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 
-import { translations } from '../data/translations';
+import { translations } from '../../data/translations';
 import {
   GalleryCityBlock,
   GalleryCarousel,
@@ -19,7 +19,7 @@ import {
   GalleryCarouselCaption,
   GalleryCarouselBtn,
   CarouselShimmer,
-} from './ComponentStyles';
+} from './CityCarouselStyles';
 
 const { cityCarousel } = translations;
 

@@ -5,7 +5,7 @@
  */
 
 import { useState } from 'react';
-import CityCarousel from '../../components/CityCarousel';
+import CityCarousel from '../../components/CityCarouselComponent/CityCarousel';
 import { useFetch } from '../../hooks/useFetch';
 import { cityCosts } from '../../data/destinationsData';
 import { translations } from '../../data/translations';
