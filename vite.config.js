@@ -11,10 +11,37 @@ import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
 const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
+import federation from '@originjs/vite-plugin-federation'
+
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(),
+    federation({
+      name: 'travelguide',  
+      filename: 'remoteEntry.js',
+      exposes: {
+        './App': './src/App.jsx',  
+      },
+      shared: {
+        react: { requiredVersion: '^18.0.0 || ^19.0.0' },
+        'react-dom': { requiredVersion: '^18.0.0 || ^19.0.0' },
+      },
+    }),
+  ],
+  build: {
+    target: 'esnext',
+    minify: false,
+    cssCodeSplit: false,
+  },
+  server: {
+    port: 3000,
+    cors: true,
+  },
+  preview: {
+    port: 3000,
+    cors: true,
+  },
   test: {
     projects: [{
       extends: true,
@@ -34,7 +61,11 @@ export default defineConfig({
             browser: 'chromium'
           }]
         },
-        setupFiles: ['.storybook/vitest.setup.js']
+        setupFiles: ['.storybook/vitest.setup.js'],
+        server: {
+          port: 3000,
+          cors: true,
+        },
       }
     }]
   }
