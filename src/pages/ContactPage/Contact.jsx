@@ -20,6 +20,7 @@ import {
   SiTiktok,
   SiPinterest,
 } from 'react-icons/si';
+import { translations } from '../../data/translations';
 import {
   ContactMain,
   ContactTitle,
@@ -30,9 +31,9 @@ import {
   ContactIcon,
   ContactLink,
   ContactSocialGrid,
-  ContactSocialLink,
   ContactHint,
-} from '../styles';
+  ContactSocialLink,
+} from './ContactStyles';
 
 const SOCIAL_LINKS = [
   { name: 'X', icon: SiX, url: 'https://x.com/wandeworld', handle: '@wandeworld' },
@@ -44,22 +45,22 @@ const SOCIAL_LINKS = [
   { name: 'Pinterest', icon: SiPinterest, url: 'https://pinterest.com/wandeworld', handle: '@wandeworld' },
 ];
 
+const { contact } = translations;
+
 export default function Contact() {
-  const email = 'wandeworld@gmail.com';
-  const phone = '+911234567898';
-  const address = '123 Main Street, Anytown, USA';
+  const { email, phone, address, hours } = contact.info;
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
 
   return (
     <ContactMain>
-      <ContactTitle>Contact Us</ContactTitle>
+      <ContactTitle>{contact.title}</ContactTitle>
       <ContactContainer>
         <ContactItem>
           <ContactIcon>
             <MdEmail aria-hidden />
           </ContactIcon>
           <div>
-            <ContactSectionTitle>Email</ContactSectionTitle>
+            <ContactSectionTitle>{contact.sections.email}</ContactSectionTitle>
             <ContactText>
               <ContactLink href={`mailto:${email}`}>{email}</ContactLink>
             </ContactText>
@@ -71,7 +72,7 @@ export default function Contact() {
             <MdPhone aria-hidden />
           </ContactIcon>
           <div>
-            <ContactSectionTitle>Phone</ContactSectionTitle>
+            <ContactSectionTitle>{contact.sections.phone}</ContactSectionTitle>
             <ContactText>
               <ContactLink href={`tel:${phone.replace(/\s/g, '')}`}>{phone}</ContactLink>
             </ContactText>
@@ -83,12 +84,12 @@ export default function Contact() {
             <MdLocationOn aria-hidden />
           </ContactIcon>
           <div>
-            <ContactSectionTitle>Address</ContactSectionTitle>
+            <ContactSectionTitle>{contact.sections.address}</ContactSectionTitle>
             <ContactText>
               <ContactLink href={mapsUrl} target="_blank" rel="noopener noreferrer">
                 {address}
               </ContactLink>
-              <ContactHint> — Opens in Maps</ContactHint>
+              <ContactHint> {contact.mapsHint}</ContactHint>
             </ContactText>
           </div>
         </ContactItem>
@@ -98,12 +99,12 @@ export default function Contact() {
             <MdSchedule aria-hidden />
           </ContactIcon>
           <div>
-            <ContactSectionTitle>Hours</ContactSectionTitle>
-            <ContactText>Mon-Fri: 9:00 AM - 5:00 PM</ContactText>
+            <ContactSectionTitle>{contact.sections.hours}</ContactSectionTitle>
+            <ContactText>{hours}</ContactText>
           </div>
         </ContactItem>
 
-        <ContactSectionTitle>Follow Us</ContactSectionTitle>
+        <ContactSectionTitle>{contact.followUs}</ContactSectionTitle>
         <ContactSocialGrid>
           {SOCIAL_LINKS.map(({ name, icon: SocialIcon, url, handle }) => (
             <ContactSocialLink

@@ -7,13 +7,16 @@
 
 import { useEffect, useCallback } from 'react';
 
+import { translations } from '../../data/translations';
 import {
   ModalOverlay,
   ModalContent,
   ModalCloseButton,
   ModalImage,
   ModalBody,
-} from '../styles';
+} from './DestinationModalStyles';
+
+const { destinationModal } = translations;
 
 function DestinationModal({ destination, onClose }) {
   const handleEscape = useCallback(
@@ -49,7 +52,7 @@ function DestinationModal({ destination, onClose }) {
         <ModalCloseButton
           type="button"
           onClick={onClose}
-          aria-label="Close modal"
+          aria-label={destinationModal.closeAriaLabel}
         >
           ×
         </ModalCloseButton>

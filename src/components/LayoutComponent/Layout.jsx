@@ -7,6 +7,7 @@
 
 import { Outlet } from 'react-router-dom';
 
+import { translations } from '../../data/translations';
 import {
   SiteHeader,
   Logo,
@@ -15,7 +16,9 @@ import {
   StyledNavLink,
   Main,
   SiteFooter,
-} from '../styles';
+} from './LayoutStyles';
+
+const { common } = translations;
 
 export default function Layout() {
   const currentYear = new Date().getFullYear();
@@ -23,20 +26,20 @@ export default function Layout() {
   return (
     <>
       <SiteHeader>
-        <Logo to="/">WanderWorld</Logo>
+        <Logo to="/">{common.siteName}</Logo>
         <Nav>
           <NavLinks>
             <li>
-              <StyledNavLink to="/" end>Home</StyledNavLink>
+              <StyledNavLink to="/" end>{common.nav.home}</StyledNavLink>
             </li>
             <li>
-              <StyledNavLink to="/destinations">Destinations</StyledNavLink>
+              <StyledNavLink to="/destinations">{common.nav.destinations}</StyledNavLink>
             </li>
             <li>
-              <StyledNavLink to="/gallery">Gallery</StyledNavLink>
+              <StyledNavLink to="/gallery">{common.nav.gallery}</StyledNavLink>
             </li>
             <li>
-              <StyledNavLink to="/contact">Contact</StyledNavLink>
+              <StyledNavLink to="/contact">{common.nav.contact}</StyledNavLink>
             </li>
           </NavLinks>
         </Nav>
@@ -47,7 +50,7 @@ export default function Layout() {
       </Main>
 
       <SiteFooter>
-        <p>&copy; {currentYear} WanderWorld. All rights reserved.</p>
+        <p>{common.footer.replace('{year}', currentYear)}</p>
       </SiteFooter>
     </>
   );

@@ -8,6 +8,7 @@
 
 import { memo, useState } from 'react';
 
+import { translations } from '../../data/translations';
 import {
   Card,
   PictureContainer,
@@ -15,7 +16,10 @@ import {
   Spinner,
   LearnMoreButton,
   CardDescription,
-} from '../styles';
+  CardTagline,
+} from './DestinationCardStyles';
+
+const { destinationCard } = translations;
 
 function DestinationCard({ destination, onCardClick }) {
   const [showDescription, setShowDescription] = useState(false);
@@ -40,7 +44,7 @@ function DestinationCard({ destination, onCardClick }) {
         {!imageLoaded && !imageError && (
           <LoadingSpinner>
             <Spinner />
-            <p>Loading...</p>
+            <p>{destinationCard.loading}</p>
           </LoadingSpinner>
         )}
         <picture>
@@ -57,13 +61,13 @@ function DestinationCard({ destination, onCardClick }) {
       </PictureContainer>
 
       <h3>{destination.name}</h3>
-      <p>{destination.tagline}</p>
+      <CardTagline>{destination.tagline}</CardTagline>
 
       <LearnMoreButton
         type="button"
         onClick={handleLearnMoreClick}
       >
-        {showDescription ? 'Show Less' : 'Learn More'}
+        {showDescription ? destinationCard.showLess : destinationCard.learnMore}
       </LearnMoreButton>
       <CardDescription $show={showDescription}>
         {destination.description}

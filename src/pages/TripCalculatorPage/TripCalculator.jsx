@@ -9,9 +9,12 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { cityCosts, getCostBreakdown } from '../data/destinationsData';
+import { cityCosts, getCostBreakdown } from '../../data/destinationsData';
+import { translations } from '../../data/translations';
 import {
+  CalculatorPageWrapper,
   CalculatorMain,
+  CalculatorBackButton,
   CalculatorTitle,
   CalculatorContainer,
   CalculatorFormGroup,
@@ -25,9 +28,10 @@ import {
   CalculatorBreakdown,
   CalculatorBreakdownItem,
   CalculatorBreakdownTotal,
-} from '../styles';
+} from './TripCalculatorStyles';
 
 const cities = Object.keys(cityCosts);
+const { tripCalculator } = translations;
 
 function getDaysBetween(startDateStr, endDateStr) {
   const start = new Date(startDateStr);
@@ -60,26 +64,28 @@ export default function TripCalculator() {
     const startDateObj = new Date(start);
     const endDateObj = new Date(end);
     if (endDateObj < startDateObj) {
-      alert('End date must be on or after start date.');
+      alert(tripCalculator.validation.endDateAfterStart);
       return;
     }
     const daysNum = getDaysBetween(start, end);
-    const breakdown = getCostBreakdown(city, daysNum);
+    const breakdown = getCostBreakdown(city, daysNum, tripCalculator.costLabels);
     setResult({ city, daysNum, breakdown });
   };
 
   return (
-    <CalculatorMain>
-      <CalculatorTitle>Trip Calculator</CalculatorTitle>
-      <CalculatorContainer>
+    <CalculatorPageWrapper>
+      <CalculatorBackButton to="/">{tripCalculator.backButton}</CalculatorBackButton>
+      <CalculatorMain>
+        <CalculatorTitle>{tripCalculator.title}</CalculatorTitle>
+        <CalculatorContainer>
         <form id="tripCalculatorForm" onSubmit={handleSubmit(onSubmit)}>
           <CalculatorFormGroup>
-            <CalculatorLabel htmlFor="city">Place you wish to visit:</CalculatorLabel>
+            <CalculatorLabel htmlFor="city">{tripCalculator.form.placeLabel}</CalculatorLabel>
             <CalculatorSelect
               id="city"
-              {...register('city', { required: 'Please select a city' })}
+              {...register('city', { required: tripCalculator.validation.cityRequired })}
             >
-              <option value="">Select a city</option>
+              <option value="">{tripCalculator.form.cityPlaceholder}</option>
               {cities.map((city) => (
                 <option key={city} value={city}>
                   {city}
@@ -89,30 +95,32 @@ export default function TripCalculator() {
             {errors.city && <CalculatorError>{errors.city.message}</CalculatorError>}
           </CalculatorFormGroup>
           <CalculatorFormGroup>
-            <CalculatorLabel htmlFor="startDate">Start date:</CalculatorLabel>
+            <CalculatorLabel htmlFor="startDate">{tripCalculator.form.startDateLabel}</CalculatorLabel>
             <CalculatorInput
               id="startDate"
               type="date"
-              {...register('startDate', { required: 'Start date is required' })}
+              {...register('startDate', { required: tripCalculator.validation.startDateRequired })}
             />
             {errors.startDate && <CalculatorError>{errors.startDate.message}</CalculatorError>}
           </CalculatorFormGroup>
           <CalculatorFormGroup>
-            <CalculatorLabel htmlFor="endDate">End date:</CalculatorLabel>
+            <CalculatorLabel htmlFor="endDate">{tripCalculator.form.endDateLabel}</CalculatorLabel>
             <CalculatorInput
               id="endDate"
               type="date"
               min={startDate || undefined}
-              {...register('endDate', { required: 'End date is required' })}
+              {...register('endDate', { required: tripCalculator.validation.endDateRequired })}
             />
             {errors.endDate && <CalculatorError>{errors.endDate.message}</CalculatorError>}
           </CalculatorFormGroup>
-          <CalculatorSubmitButton type="submit">Calculate Cost</CalculatorSubmitButton>
+          <CalculatorSubmitButton type="submit">{tripCalculator.form.submitButton}</CalculatorSubmitButton>
         </form>
         {result && (
           <CalculatorResult>
             <CalculatorResultMessage>
-              Estimated budget for your {result.daysNum} day trip to {result.city} 
+              {tripCalculator.result.message
+                .replace('{daysNum}', result.daysNum)
+                .replace('{city}', result.city)}
             </CalculatorResultMessage>
             <CalculatorBreakdown>
               {result.breakdown.items.map(({ label, amount }) => (
@@ -122,13 +130,14 @@ export default function TripCalculator() {
                 </CalculatorBreakdownItem>
               ))}
               <CalculatorBreakdownTotal>
-                <span>Total :</span>
+                <span>{tripCalculator.result.total} :</span>
                 <span>{formatCurrency(result.breakdown.total)}</span>
               </CalculatorBreakdownTotal>
             </CalculatorBreakdown>
           </CalculatorResult>
         )}
-      </CalculatorContainer>
-    </CalculatorMain>
+        </CalculatorContainer>
+      </CalculatorMain>
+    </CalculatorPageWrapper>
   );
 }

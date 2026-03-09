@@ -11,19 +11,20 @@ import { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { theme } from './theme';
-import Layout from './components/Layout';
+import { translations } from './data/translations';
+import Layout from './components/LayoutComponent/Layout';
 
 // Lazy-load pages so each route is in its own chunk (code splitting)
-const Home = lazy(() => import('./pages/Home'));
-const Destinations = lazy(() => import('./pages/Destinations'));
-const Gallery = lazy(() => import('./pages/Gallery'));
-const Contact = lazy(() => import('./pages/Contact'));
-const TripCalculator = lazy(() => import('./pages/TripCalculator'));
+const Home = lazy(() => import('./pages/HomePage/Home'));
+const Destinations = lazy(() => import('./pages/DestinationsPage/Destinations'));
+const Gallery = lazy(() => import('./pages/GalleryPage/Gallery'));
+const Contact = lazy(() => import('./pages/ContactPage/Contact'));
+const TripCalculator = lazy(() => import('./pages/TripCalculatorPage/TripCalculator'));
 
 function RouteFallback() {
   return (
     <div style={{ padding: '2rem', textAlign: 'center' }} aria-live="polite">
-      Loading…
+      {translations.app.loadingFallback}
     </div>
   );
 }

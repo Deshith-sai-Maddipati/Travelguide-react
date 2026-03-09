@@ -3,7 +3,7 @@
  */
 
 import DestinationCard from './DestinationCard';
-import { destinationsData } from '../data/destinationsData';
+import { destinationsData } from '../../data/destinationsData';
 
 export default {
   title: 'Components/DestinationCard',
