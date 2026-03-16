@@ -8,7 +8,7 @@
 
 import { lazy, Suspense } from 'react';
 import { ThemeProvider } from 'styled-components';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import { theme } from './theme';
 import { translations } from './data/translations';
@@ -32,9 +32,8 @@ function RouteFallback() {
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Suspense fallback={<RouteFallback />}>
-          <Routes>
+      <Suspense fallback={<RouteFallback />}>
+        <Routes>
             {/* Layout wraps all pages: header, main content (Outlet), footer */}
             <Route element={<Layout />}>
               <Route index element={<Home />} />
@@ -43,9 +42,8 @@ function App() {
               <Route path="contact" element={<Contact />} />
               <Route path="trip-calculator" element={<TripCalculator />} />
             </Route>
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
+        </Routes>
+      </Suspense>
     </ThemeProvider>
   );
 }

@@ -10,22 +10,26 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
-const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
-import federation from '@originjs/vite-plugin-federation'
+import federation from '@originjs/vite-plugin-federation';
 
+const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
-  plugins: [react(),
+  plugins: [
+    react(),
     federation({
-      name: 'travelguide',  
+      name: 'travelguide',
       filename: 'remoteEntry.js',
       exposes: {
-        './App': './src/App.jsx',  
+        './App': './src/App.jsx',
+        './theme': './src/theme.js',
       },
       shared: {
-        react: { requiredVersion: '^18.0.0 || ^19.0.0' },
-        'react-dom': { requiredVersion: '^18.0.0 || ^19.0.0' },
+        react: { singleton: true },
+        'react-dom': { singleton: true },
+        'react-router-dom': { singleton: true },
+        'styled-components': { singleton: true },
       },
     }),
   ],
