@@ -10,6 +10,7 @@ import { lazy, Suspense } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { Routes, Route } from 'react-router-dom';
 
+import { ImageBaseUrlContext } from './context/ImageBaseUrlContext';
 import { theme } from './theme';
 import { translations } from './data/translations';
 import Layout from './components/LayoutComponent/Layout';
@@ -29,9 +30,10 @@ function RouteFallback() {
   );
 }
 
-function App() {
+function App({ imageBaseUrl = '' }) {
   return (
     <ThemeProvider theme={theme}>
+      <ImageBaseUrlContext.Provider value={imageBaseUrl}>
       <Suspense fallback={<RouteFallback />}>
         <Routes>
             {/* Layout wraps all pages: header, main content (Outlet), footer */}
@@ -44,6 +46,7 @@ function App() {
             </Route>
         </Routes>
       </Suspense>
+      </ImageBaseUrlContext.Provider>
     </ThemeProvider>
   );
 }

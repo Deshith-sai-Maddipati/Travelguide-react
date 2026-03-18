@@ -8,6 +8,7 @@
 
 import { memo, useState } from 'react';
 
+import { useImageUrl } from '../../context/ImageBaseUrlContext';
 import { translations } from '../../data/translations';
 import {
   Card,
@@ -26,9 +27,12 @@ function DestinationCard({ destination, onCardClick }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
+  const imageUrl = useImageUrl();
   const imgSrc = imageError
-    ? destination.fallbackImage
-    : (destination.desktopImage || destination.fallbackImage);
+    ? imageUrl(destination.fallbackImage)
+    : imageUrl(destination.desktopImage || destination.fallbackImage);
+  const mobileSrc = imageUrl(destination.mobileImage);
+  const desktopSrc = imageUrl(destination.desktopImage);
 
   const handleLearnMoreClick = (e) => {
     e.stopPropagation();
@@ -48,8 +52,8 @@ function DestinationCard({ destination, onCardClick }) {
           </LoadingSpinner>
         )}
         <picture>
-          <source srcSet={destination.mobileImage} media="(max-width: 600px)" />
-          <source srcSet={destination.desktopImage} media="(min-width: 601px)" />
+          <source srcSet={mobileSrc} media="(max-width: 600px)" />
+          <source srcSet={desktopSrc} media="(min-width: 601px)" />
           <img
             src={imgSrc}
             alt={destination.name}

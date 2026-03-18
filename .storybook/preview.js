@@ -1,12 +1,17 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '../src/theme';
+import { ImageBaseUrlContext } from '../src/context/ImageBaseUrlContext';
 
 /** @type { import('@storybook/react-vite').Preview } */
 const preview = {
   decorators: [
     (Story) =>
-      React.createElement(ThemeProvider, { theme }, React.createElement(Story)),
+      React.createElement(
+        ThemeProvider,
+        { theme },
+        React.createElement(ImageBaseUrlContext.Provider, { value: '' }, React.createElement(Story))
+      ),
   ],
   parameters: {
     controls: {

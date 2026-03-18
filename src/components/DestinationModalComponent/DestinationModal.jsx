@@ -7,6 +7,7 @@
 
 import { useEffect, useCallback } from 'react';
 
+import { useImageUrl } from '../../context/ImageBaseUrlContext';
 import { translations } from '../../data/translations';
 import {
   ModalOverlay,
@@ -38,7 +39,8 @@ function DestinationModal({ destination, onClose }) {
 
   if (!destination) return null;
 
-  const imgSrc = destination.desktopImage || destination.fallbackImage;
+  const imageUrl = useImageUrl();
+  const imgSrc = imageUrl(destination.desktopImage || destination.fallbackImage);
 
   return (
     <ModalOverlay
